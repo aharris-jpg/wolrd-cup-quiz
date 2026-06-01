@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KC World Cup Quiz — Pitch Email</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --kc:#004C97;--kc-light:#E8EFF8;--kc-mid:#B8CCE4;
+  --ink:#111;--ink-mid:#444;--ink-light:#888;
+  --rule:#E2E2E2;--bg:#FAFAF8;--white:#fff;
+  --ok:#1A6B3C;--ok-bg:#EAF5EF;
+  --err:#991B1B;--err-bg:#FEF2F2;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:40px 16px 60px}
+.wrap{max-width:640px;width:100%}
+.email-card{background:var(--white);border:1px solid var(--rule);overflow:hidden}
+.email-body{padding:28px;font-size:15px;line-height:1.7;color:var(--ink);border-bottom:1px solid var(--rule)}
+.email-body p{margin-bottom:12px}
+.email-body p:last-child{margin-bottom:0}
+.email-body ul{margin:0 0 12px 18px}
+.email-body li{margin-bottom:5px;font-size:15px;line-height:1.6}
+.email-body a{color:var(--kc);font-weight:500}
+.study-link-block{background:var(--kc-light);border:1px solid var(--kc-mid);padding:11px 14px;margin:14px 0;font-size:13px;line-height:1.6;color:var(--ink-mid)}
+.study-link-block a{color:var(--kc);font-weight:500}
+.about-block{padding:16px 28px;background:var(--bg);border-bottom:1px solid var(--rule)}
+.about-label{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);margin-bottom:5px}
+.about-block p{font-size:12px;color:var(--ink-light);line-height:1.6}
+.about-block a{color:var(--kc)}
+.quiz-section{border-bottom:1px solid var(--rule)}
+.quiz-section-label{padding:20px 28px 0;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light)}
+.quiz-inner{margin:14px 28px 0}
+.q-hd{background:var(--kc);padding:22px 24px 18px;color:var(--white)}
+.q-tag{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--kc-mid);display:block;margin-bottom:8px}
+.q-hd h2{font-family:var(--serif);font-size:20px;line-height:1.3;color:var(--white);font-weight:400;margin-bottom:8px}
+.q-hd p{font-size:13px;color:var(--kc-mid);line-height:1.5}
+.prog-track{height:2px;background:rgba(255,255,255,.2)}
+.prog-fill{height:2px;background:var(--white);transition:width .4s ease;width:0%}
+.q-body{padding:24px;background:var(--white);border:1px solid var(--rule);border-top:none}
+.qmeta{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);margin-bottom:12px}
+.qtext{font-family:var(--serif);font-size:18px;line-height:1.4;color:var(--ink);margin-bottom:20px;font-weight:400}
+.opts{display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
+.opt{background:var(--white);border:1px solid var(--rule);padding:11px 14px;text-align:left;font-family:var(--sans);font-size:14px;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s;line-height:1.4}
+.opt:hover:not(:disabled){border-color:var(--kc);background:var(--kc-light)}
+.opt:disabled{cursor:default}
+.opt.correct{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.opt.wrong{background:var(--err-bg);border-color:var(--err);color:var(--err)}
+.opt.reveal{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.exp{border-left:2px solid var(--kc);padding:12px 14px;background:var(--kc-light);font-size:13px;line-height:1.6;color:var(--ink-mid);margin-bottom:20px;display:none}
+.exp strong{color:var(--ink);font-weight:500}
+.nxt{background:var(--kc);color:var(--white);border:none;padding:10px 20px;font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;display:none;transition:opacity .15s}
+.nxt:hover{opacity:.88}
+.score-body{padding:24px;background:var(--white);border:1px solid var(--rule);border-top:none;text-align:center}
+.score-n{font-family:var(--serif);font-size:56px;line-height:1;color:var(--kc);font-weight:400}
+.score-d{font-size:14px;color:var(--ink-light);margin-bottom:14px;margin-top:4px}
+.score-v{font-family:var(--serif);font-size:18px;color:var(--ink);font-weight:400;line-height:1.4;margin-bottom:16px}
+.score-ctx{background:var(--kc-light);border:1px solid var(--kc-mid);padding:14px 16px;font-size:13px;line-height:1.6;color:var(--ink-mid);text-align:left;margin-bottom:20px}
+.score-ctx strong{color:var(--ink);font-weight:500}
+.score-ctx a{color:var(--kc)}
+.acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-p{background:var(--kc);color:var(--white);border:none;padding:10px 20px;font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;display:inline-block;transition:opacity .15s}
+.btn-p:hover{opacity:.88}
+.btn-s{background:var(--white);color:var(--ink);border:1px solid var(--rule);padding:10px 20px;font-family:var(--sans);font-size:13px;cursor:pointer;transition:border-color .15s}
+.btn-s:hover{border-color:var(--ink)}
+.q-foot{border-top:1px solid var(--rule);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;background:var(--white)}
+.q-foot-l{font-size:11px;color:var(--ink-light)}
+.q-foot-l a{color:var(--kc);text-decoration:none;font-weight:500}
+.embed-section{padding:24px 28px 28px;background:var(--white)}
+.embed-heading{font-size:15px;font-weight:500;color:var(--ink);margin-bottom:6px}
+.embed-intro{font-size:13px;color:var(--ink-mid);line-height:1.6;margin-bottom:18px}
+.embed-steps{margin:0 0 20px 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.embed-step{display:flex;gap:12px;align-items:flex-start;font-size:13px;line-height:1.6;color:var(--ink-mid)}
+.embed-step-num{background:var(--kc);color:var(--white);font-size:11px;font-weight:500;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.embed-step strong{color:var(--ink);font-weight:500}
+.copy-btn{display:flex;align-items:center;gap:12px;background:var(--kc);border:none;padding:14px 20px;font-family:var(--sans);font-size:14px;font-weight:500;color:var(--white);cursor:pointer;transition:opacity .15s;width:100%;text-align:left}
+.copy-btn:hover{opacity:.88}
+.copy-btn-text{display:flex;flex-direction:column;gap:2px}
+.copy-btn-sub{font-size:12px;font-weight:400;opacity:.8}
+.copy-confirm{display:none;background:var(--ok-bg);border:1px solid var(--ok);padding:12px 16px;font-size:13px;color:var(--ok);margin-top:10px;line-height:1.5}
+.copy-confirm strong{font-weight:500}
+.note-line{font-size:12px;color:var(--ink-light);margin-top:12px;line-height:1.5}
+.note-line a{color:var(--kc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="email-card">
+
+    <div class="email-body">
+      <p>Hi [First Name],</p>
+
+      <p>Action Network's five-year study ranked Missouri <strong>among the least soccer-literate of all 11 US World Cup host cities</strong>. Kansas City residents search for "what is offsides" at <strong>35 times the rate of Los Angeles</strong>. The quarter-final arrives in weeks.</p>
+
+      <p><strong>We've built a free, embeddable World Cup quiz your readers can take right now</strong> — and thought it could be a good fit for [Outlet]. Five questions, instant feedback, 90 seconds. Every result links back to the full study.</p>
+
+      <ul>
+        <li>Missouri scored the <strong>maximum confusion score across every category</strong>: rules, terminology, tournament format and general curiosity.</li>
+        <li>The quiz covers exactly what Kansas City fans are most curious about ahead of the tournament: offside, stoppage time, red cards, penalties and the group stage format.</li>
+        <li><strong>No hosting needed.</strong> Paste the embed code into your CMS and it works immediately.</li>
+      </ul>
+
+      <div class="study-link-block">
+        Full study and state-by-state breakdown: <a href="https://www.actionnetwork.com/soccer/most-confused-states-about-soccer-world-cup" target="_blank" rel="noopener">actionnetwork.com/soccer/most-confused-states-about-soccer-world-cup</a>
+      </div>
+
+      <p>The embed code and a live preview are below. Worth a look?</p>
+      <p>Best,<br>Amy</p>
+    </div>
+
+    <div class="about-block">
+      <div class="about-label">About Action Network</div>
+      <p>Action Network is a sports betting analytics and media platform helping fans make smarter decisions around sports. The platform covers odds, picks and data-led research across professional and college sports leagues and international competitions. <a href="https://www.actionnetwork.com" target="_blank" rel="noopener">actionnetwork.com</a></p>
+    </div>
+
+    <div class="quiz-section">
+      <div class="quiz-section-label">Quiz preview — this is what your readers will see</div>
+      <div class="quiz-inner">
+        <div class="q-hd">
+          <span class="q-tag">Action Network &middot; World Cup 2026</span>
+          <h2>Kansas City is hosting six World Cup matches. Do you actually know the game?</h2>
+          <p>Five questions. No googling. Missouri ranked among the least soccer-literate of all 11 US host cities.</p>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="prog"></div></div>
+        <div id="quiz">
+          <div class="q-body">
+            <div class="qmeta" id="qmeta">Question 1 of 5</div>
+            <div class="qtext" id="qtext"></div>
+            <div class="opts" id="opts"></div>
+            <div class="exp" id="exp"></div>
+            <button class="nxt" id="nxt" onclick="nextQ()"></button>
+          </div>
+        </div>
+        <div id="result" style="display:none">
+          <div class="score-body">
+            <div class="score-n" id="snum">0</div>
+            <div class="score-d">out of 5</div>
+            <div class="score-v" id="sverdict"></div>
+            <div class="score-ctx" id="sctx"></div>
+            <div class="acts">
+              <button class="btn-s" onclick="restart()">Try again</button>
+              <a class="btn-p" href="https://www.actionnetwork.com/soccer/most-confused-states-about-soccer-world-cup" target="_blank" rel="noopener">See the full study</a>
+            </div>
+          </div>
+        </div>
+        <div class="q-foot">
+          <div class="q-foot-l">Data: <a href="https://www.actionnetwork.com/soccer/most-confused-states-about-soccer-world-cup" target="_blank" rel="noopener">Action Network World Cup Confusion Index</a></div>
+          <div class="q-foot-l">actionnetwork.com</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="embed-section">
+      <div class="embed-heading">Add this quiz to your article</div>
+      <div class="embed-intro">One block of code. No external server, no account, no dependencies. Here is exactly what to do:</div>
+      <ul class="embed-steps">
+        <li class="embed-step"><span class="embed-step-num">1</span><span><strong>Click the button below</strong> to copy the embed code to your clipboard.</span></li>
+        <li class="embed-step"><span class="embed-step-num">2</span><span><strong>Open your CMS</strong> and switch to HTML or source code view for your article.</span></li>
+        <li class="embed-step"><span class="embed-step-num">3</span><span><strong>Paste the code</strong> where you want the quiz to appear. Works in WordPress, Arc, Chorus, Brightspot and most standard CMS platforms.</span></li>
+        <li class="embed-step"><span class="embed-step-num">4</span><span><strong>Publish.</strong> The quiz is live. Action Network credit and the link to the full study are built in automatically.</span></li>
+      </ul>
+      <button class="copy-btn" onclick="copyEmbed()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <div class="copy-btn-text">
+          <span>Copy embed code</span>
+          <span class="copy-btn-sub">One click. Paste straight into your CMS.</span>
+        </div>
+      </button>
+      <div class="copy-confirm" id="copy-confirm">
+        <strong>Copied.</strong> Open your CMS, switch to HTML view, and paste. The quiz will appear exactly as shown above. Action Network credit and the study link are included automatically.
+      </div>
+      <div class="note-line">Built from Action Network's World Cup Confusion Index. Full methodology and state-by-state data: <a href="https://www.actionnetwork.com/soccer/most-confused-states-about-soccer-world-cup" target="_blank" rel="noopener">actionnetwork.com/soccer/most-confused-states-about-soccer-world-cup</a></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+var Q=[
+  {q:"A forward receives a pass and is closer to the opponent's goal line than both the ball and the second-to-last defender. The referee raises the flag. What has been called?",
+   o:["Offside","Out of bounds","A foul","A penalty kick"],c:0,
+   e:"<strong>Offside.</strong> A player is offside if any part of their body that can score a goal is closer to the opponent's goal line than both the ball and the second-to-last defender at the moment the ball is played. The most searched soccer rule in the country."},
+  {q:"The 90 minutes are up but the referee keeps playing. The fourth official holds up a board showing 5. What is happening?",
+   o:["Extra time has been awarded","The referee has lost count","Stoppage time is being added for delays during the match","A penalty shootout is about to start"],c:2,
+   e:"<strong>Stoppage time.</strong> The referee adds minutes at the end of each half to compensate for stoppages: injuries, substitutions, VAR checks. Stoppage time was the single highest-confusion topic in Action Network's five-year dataset."},
+  {q:"A defender deliberately handles the ball in their own penalty area to stop a certain goal. The referee points to the spot. What comes next?",
+   o:["A free kick from the edge of the box","A penalty kick","A corner kick","Play restarts with a drop ball"],c:1,
+   e:"<strong>A penalty kick.</strong> Any deliberate handball or foul by a defending player inside their own penalty area results in a penalty. One player shoots from 12 yards out with only the goalkeeper to beat."},
+  {q:"A player receives two yellow cards in the same match. What happens?",
+   o:["They are warned and can continue playing","They are substituted off immediately","They are shown a red card and must leave the field","They miss the next match but can finish this one"],c:2,
+   e:"<strong>Red card, off the field.</strong> Two yellows automatically become a red card. The player is dismissed immediately and their team plays on with ten players. They also miss the next game."},
+  {q:"Kansas City's matches are in the group stage. Each team plays three games. How does a team advance to the knockout rounds?",
+   o:["The team with the most goals across all groups advances","The top two teams from each group advance, plus the four best third-placed teams","Only the group winners advance","Teams are selected by FIFA based on performance"],c:1,
+   e:"<strong>Top two plus four best third-placed teams.</strong> In 2026, 48 teams are split into 12 groups of four. The top two from each group advance. The four best third-placed finishers also go through, making 32 teams in the round of 32."}
+];
+var verdicts=["The World Cup is a great chance to learn the game.","A few gaps, but you're not alone.","Not bad. Better than most.","Solid. You're ahead of the curve.","Full marks. Kansas City is ready."];
+var ctxs=[
+  "Action Network's five-year study ranked Missouri among the least soccer-literate of all 11 US World Cup host cities, with the maximum confusion score across rules, terminology, tournament format and general curiosity. The good news: six matches this summer will sort that out fast. <a href='https://www.actionnetwork.com/soccer/most-confused-states-about-soccer-world-cup' target='_blank' rel='noopener'>See the full study.</a>",
+  "Action Network's analysis found Missouri among the least soccer-literate host city states, with high search volume for <strong>what is offsides, how does the World Cup work</strong> and <strong>why is it called football.</strong> The quiz covers all three. <a href='https://www.actionnetwork.com/soccer/most-confused-states-about-soccer-world-cup' target='_blank' rel='noopener'>See the full study.</a>",
+  "Action Network's study ranked Missouri among the least soccer-literate of all 11 US host city states. You're clearly ahead of that curve. <strong>Six matches this summer will take care of the rest.</strong> <a href='https://www.actionnetwork.com/soccer/most-confused-states-about-soccer-world-cup' target='_blank' rel='noopener'>See the full study.</a>",
+  "Action Network's study ranked Missouri among the least soccer-literate host city states. You didn't get that memo. <strong>Four out of five.</strong> <a href='https://www.actionnetwork.com/soccer/most-confused-states-about-soccer-world-cup' target='_blank' rel='noopener'>See the full study.</a>",
+  "Action Network's study ranked Missouri among the least soccer-literate host city states. You are clearly the exception. <strong>Full marks. You were ready before the World Cup came to town.</strong> <a href='https://www.actionnetwork.com/soccer/most-confused-states-about-soccer-world-cup' target='_blank' rel='noopener'>See the full study.</a>"
+];
+var cur=0,sc=0,done=false;
+function render(){
+  var q=Q[cur];
+  document.getElementById('qmeta').textContent='Question '+(cur+1)+' of '+Q.length;
+  document.getElementById('qtext').textContent=q.q;
+  document.getElementById('prog').style.width=((cur/Q.length)*100)+'%';
+  var el=document.getElementById('opts');el.innerHTML='';
+  q.o.forEach(function(o,i){
+    var b=document.createElement('button');b.className='opt';b.textContent=o;
+    b.onclick=function(){pick(i);};el.appendChild(b);
+  });
+  document.getElementById('exp').style.display='none';
+  document.getElementById('nxt').style.display='none';
+  done=false;
+}
+function pick(i){
+  if(done)return;done=true;
+  var q=Q[cur];
+  var bs=document.querySelectorAll('.opt');
+  bs.forEach(function(b,idx){
+    b.disabled=true;
+    if(idx===q.c)b.classList.add(i===q.c?'correct':'reveal');
+    else if(idx===i)b.classList.add('wrong');
+  });
+  if(i===q.c)sc++;
+  var e=document.getElementById('exp');e.innerHTML=q.e;e.style.display='block';
+  var n=document.getElementById('nxt');n.style.display='inline-block';
+  n.textContent=cur<Q.length-1?'Next question':'See your result';
+}
+function nextQ(){cur++;if(cur>=Q.length){showResult();return;}render();}
+function showResult(){
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('result').style.display='block';
+  document.getElementById('prog').style.width='100%';
+  document.getElementById('snum').textContent=sc;
+  document.getElementById('sverdict').textContent=verdicts[sc];
+  document.getElementById('sctx').innerHTML=ctxs[sc];
+}
+function restart(){
+  cur=0;sc=0;done=false;
+  document.getElementById('result').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  render();
+}
+
+var embedCode='<!-- Action Network: Kansas City World Cup Quiz -->\n<!-- Full study: https://www.actionnetwork.com/soccer/most-confused-states-about-soccer-world-cup -->\n<style>\n.ankc *,.ankc *::before,.ankc *::after{box-sizing:border-box;margin:0;padding:0}\n.ankc{--kc:#004C97;--kl:#E8EFF8;--km:#B8CCE4;--ink:#111;--im:#444;--il:#888;--ru:#E2E2E2;--wh:#fff;--ok:#1A6B3C;--ob:#EAF5EF;--er:#991B1B;--eb:#FEF2F2;font-family:system-ui,sans-serif;max-width:600px;border:1px solid var(--ru);overflow:hidden;margin:0 auto}\n.ankc .hd{background:var(--kc);padding:22px 24px 18px;color:var(--wh)}\n.ankc .tg{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--km);display:block;margin-bottom:8px}\n.ankc .hd h2{font-size:20px;line-height:1.3;color:var(--wh);font-weight:600;margin-bottom:8px}\n.ankc .hd p{font-size:13px;color:var(--km);line-height:1.5}\n.ankc .pt{height:2px;background:rgba(255,255,255,.2)}\n.ankc .pf{height:2px;background:var(--wh);transition:width .4s ease;width:0%}\n.ankc .bd{padding:22px;background:var(--wh)}\n.ankc .qm{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--il);margin-bottom:12px}\n.ankc .qt{font-size:18px;line-height:1.4;color:var(--ink);margin-bottom:18px;font-weight:500}\n.ankc .os{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}\n.ankc .op{background:var(--wh);border:1px solid var(--ru);padding:11px 14px;text-align:left;font-family:inherit;font-size:14px;color:var(--ink);cursor:pointer;line-height:1.4;transition:border-color .15s,background .15s}\n.ankc .op:hover:not(:disabled){border-color:var(--kc);background:var(--kl)}\n.ankc .op:disabled{cursor:default}\n.ankc .op.c{background:var(--ob);border-color:var(--ok);color:var(--ok)}\n.ankc .op.w{background:var(--eb);border-color:var(--er);color:var(--er)}\n.ankc .op.r{background:var(--ob);border-color:var(--ok);color:var(--ok)}\n.ankc .ex{border-left:2px solid var(--kc);padding:12px 14px;background:var(--kl);font-size:13px;line-height:1.6;color:var(--im);margin-bottom:18px;display:none}\n.ankc .ex strong{color:var(--ink);font-weight:500}\n.ankc .nx{background:var(--kc);color:var(--wh);border:none;padding:10px 20px;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;display:none}\n.ankc .sb{padding:22px;background:var(--wh);text-align:center}\n.ankc .sn{font-size:56px;line-height:1;color:var(--kc);font-weight:700}\n.ankc .sd{font-size:14px;color:var(--il);margin-bottom:12px;margin-top:4px}\n.ankc .sv{font-size:18px;color:var(--ink);font-weight:500;line-height:1.4;margin-bottom:14px}\n.ankc .sc{background:var(--kl);border:1px solid var(--km);padding:14px;font-size:13px;line-height:1.6;color:var(--im);text-align:left;margin-bottom:18px}\n.ankc .sc strong{color:var(--ink);font-weight:500}\n.ankc .sc a{color:var(--kc)}\n.ankc .ac{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}\n.ankc .bp{background:var(--kc);color:var(--wh);border:none;padding:10px 20px;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;display:inline-block}\n.ankc .bs{background:var(--wh);color:var(--ink);border:1px solid var(--ru);padding:10px 20px;font-family:inherit;font-size:13px;cursor:pointer}\n.ankc .ft{border-top:1px solid var(--ru);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;background:var(--wh)}\n.ankc .fl{font-size:11px;color:var(--il)}\n.ankc .fl a{color:var(--kc);text-decoration:none;font-weight:500}\n</style>\n<div class="ankc">\n  <div class="hd">\n    <span class="tg">Action Network \u00b7 World Cup 2026</span>\n    <h2>Kansas City is hosting six World Cup matches. Do you actually know the game?</h2>\n    <p>Five questions. No googling. Missouri ranked among the least soccer-literate of all 11 US host cities.</p>\n  </div>\n  <div class="pt"><div class="pf" id="an-prog"></div></div>\n  <div id="an-quiz">\n    <div class="bd">\n      <div class="qm" id="an-qm">Question 1 of 5</div>\n      <div class="qt" id="an-qt"></div>\n      <div class="os" id="an-os"></div>\n      <div class="ex" id="an-ex"></div>\n      <button class="nx" id="an-nx" onclick="anNext()"></button>\n    </div>\n  </div>\n  <div id="an-result" style="display:none">\n    <div class="sb">\n      <div class="sn" id="an-sn">0</div>\n      <div class="sd">out of 5</div>\n      <div class="sv" id="an-sv"></div>\n      <div class="sc" id="an-sc"></div>\n      <div class="ac">\n        <button class="bs" onclick="anRestart()">Try again</button>\n        <a class="bp" href="https://www.actionnetwork.com/soccer/most-confused-states-about-soccer-world-cup" target="_blank" rel="noopener">See the full study</a>\n      </div>\n    </div>\n  </div>\n  <div class="ft">\n    <div class="fl">Data: <a href="https://www.actionnetwork.com/soccer/most-confused-states-about-soccer-world-cup" target="_blank" rel="noopener">Action Network World Cup Confusion Index</a></div>\n    <div class="fl">actionnetwork.com</div>\n  </div>\n</div>\n<script>\n(function(){\nvar Q=[{q:"A forward receives a pass and is closer to the opponent\'s goal line than both the ball and the second-to-last defender. The referee raises the flag. What has been called?",o:["Offside","Out of bounds","A foul","A penalty kick"],c:0,e:"<strong>Offside.<\/strong> A player is offside if any part of their body that can score a goal is closer to the opponent\'s goal line than both the ball and the second-to-last defender at the moment the ball is played. The most searched soccer rule in the country."},{q:"The 90 minutes are up but the referee keeps playing. The fourth official holds up a board showing 5. What is happening?",o:["Extra time has been awarded","The referee has lost count","Stoppage time is being added for delays during the match","A penalty shootout is about to start"],c:2,e:"<strong>Stoppage time.<\/strong> The referee adds minutes at the end of each half to compensate for stoppages: injuries, substitutions, VAR checks. Stoppage time was the single highest-confusion topic in Action Network\'s five-year dataset."},{q:"A defender deliberately handles the ball in their own penalty area to stop a certain goal. The referee points to the spot. What comes next?",o:["A free kick from the edge of the box","A penalty kick","A corner kick","Play restarts with a drop ball"],c:1,e:"<strong>A penalty kick.<\/strong> Any deliberate handball or foul by a defending player inside their own penalty area results in a penalty. One player shoots from 12 yards out with only the goalkeeper to beat."},{q:"A player receives two yellow cards in the same match. What happens?",o:["They are warned and can continue playing","They are substituted off immediately","They are shown a red card and must leave the field","They miss the next match but can finish this one"],c:2,e:"<strong>Red card, off the field.<\/strong> Two yellows automatically become a red card. The player is dismissed immediately and their team plays on with ten players."},{q:"Kansas City\'s matches are in the group stage. Each team plays three games. How does a team advance to the knockout rounds?",o:["The team with the most goals across all groups advances","The top two teams from each group advance, plus the four best third-placed teams","Only the group winners advance","Teams are selected by FIFA based on performance"],c:1,e:"<strong>Top two plus four best third-placed teams.<\/strong> In 2026, 48 teams are split into 12 groups of four. The top two from each group advance. The four best third-placed finishers also go through."}];\nvar vd=["The World Cup is a great chance to learn the game.","A few gaps, but you\'re not alone.","Not bad. Better than most.","Solid. You\'re ahead of the curve.","Full marks. Kansas City is ready."];\nvar cx=["Action Network\'s five-year study ranked Missouri among the least soccer-literate of all 11 US World Cup host cities. The good news: six matches this summer will sort that out fast. <a href=\'https:\\/\\/www.actionnetwork.com\\/soccer\\/most-confused-states-about-soccer-world-cup\' target=\'_blank\' rel=\'noopener\'>See the full study.<\/a>","Action Network\'s analysis found Missouri among the least soccer-literate host city states, with high search volume for <strong>what is offsides, how does the World Cup work<\/strong> and <strong>why is it called football.<\/strong> <a href=\'https:\\/\\/www.actionnetwork.com\\/soccer\\/most-confused-states-about-soccer-world-cup\' target=\'_blank\' rel=\'noopener\'>See the full study.<\/a>","Action Network\'s study ranked Missouri among the least soccer-literate of all 11 US host city states. You\'re clearly ahead of that curve. <a href=\'https:\\/\\/www.actionnetwork.com\\/soccer\\/most-confused-states-about-soccer-world-cup\' target=\'_blank\' rel=\'noopener\'>See the full study.<\/a>","Action Network\'s study ranked Missouri among the least soccer-literate host city states. You didn\'t get that memo. <strong>Four out of five.<\/strong> <a href=\'https:\\/\\/www.actionnetwork.com\\/soccer\\/most-confused-states-about-soccer-world-cup\' target=\'_blank\' rel=\'noopener\'>See the full study.<\/a>","Action Network\'s study ranked Missouri among the least soccer-literate host city states. You are clearly the exception. <strong>Full marks.<\/strong> <a href=\'https:\\/\\/www.actionnetwork.com\\/soccer\\/most-confused-states-about-soccer-world-cup\' target=\'_blank\' rel=\'noopener\'>See the full study.<\/a>"];\nvar cur=0,sc=0,dn=false;\nfunction rnd(){var q=Q[cur];document.getElementById("an-qm").textContent="Question "+(cur+1)+" of "+Q.length;document.getElementById("an-qt").textContent=q.q;document.getElementById("an-prog").style.width=((cur\/Q.length)*100)+"%";var el=document.getElementById("an-os");el.innerHTML="";q.o.forEach(function(o,i){var b=document.createElement("button");b.className="op";b.textContent=o;b.onclick=function(){pk(i);};el.appendChild(b);});document.getElementById("an-ex").style.display="none";document.getElementById("an-nx").style.display="none";dn=false;}\nfunction pk(i){if(dn)return;dn=true;var q=Q[cur];var bs=document.querySelectorAll("#an-os .op");bs.forEach(function(b,idx){b.disabled=true;if(idx===q.c)b.classList.add(i===q.c?"c":"r");else if(idx===i)b.classList.add("w");});if(i===q.c)sc++;var e=document.getElementById("an-ex");e.innerHTML=q.e;e.style.display="block";var n=document.getElementById("an-nx");n.style.display="inline-block";n.textContent=cur<Q.length-1?"Next question":"See your result";}\nwindow.anNext=function(){cur++;if(cur>=Q.length){document.getElementById("an-quiz").style.display="none";document.getElementById("an-result").style.display="block";document.getElementById("an-prog").style.width="100%";document.getElementById("an-sn").textContent=sc;document.getElementById("an-sv").textContent=vd[sc];document.getElementById("an-sc").innerHTML=cx[sc];}else{rnd();}};\nwindow.anRestart=function(){cur=0;sc=0;dn=false;document.getElementById("an-result").style.display="none";document.getElementById("an-quiz").style.display="block";rnd();};\nrnd();\n})();\n<\/script>\n<!-- End Action Network embed -->';
+
+function copyEmbed(){
+  navigator.clipboard.writeText(embedCode).then(function(){
+    var c=document.getElementById('copy-confirm');
+    c.style.display='block';
+    setTimeout(function(){c.style.display='none';},5000);
+  }).catch(function(){
+    var c=document.getElementById('copy-confirm');
+    c.innerHTML='<strong>Copy failed.</strong> Please contact Amy for the embed code directly.';
+    c.style.display='block';
+  });
+}
+render();
+</script>
+</body>
+</html>
